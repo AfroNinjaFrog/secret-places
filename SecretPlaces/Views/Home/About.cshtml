@@ -1,0 +1,32 @@
+﻿@{
+    ViewData["Title"] = "About Food Reviews";
+}
+<h2>@ViewData["Title"]</h2>
+
+<div class="row">
+    <div class="col-sm-6">
+        <p><strong>We strive to be a place for food lovers to share their experiences from various restaurant from all around the world.</strong></p>
+
+        <p>If you want to find your next place to eat - look no further! Food Reviews will let you view thousands of user reviews so you can find the perfect place for you to visit!</p>
+
+        <p>Hope you enjoy and have a <strong>TASTY</strong> time :)</p>
+
+        <canvas id="canvas"></canvas>
+    </div>
+    <div class="col-sm-6">
+        <video width="450" height="255" controls>
+            <source src="~/videos/food-reviews-about-video.mp4" type="video/mp4">
+        </video>
+    </div>
+</div>
+
+<script>
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
+    var imageObj = new Image();
+
+    imageObj.onload = function () {
+        context.drawImage(imageObj, 0, 0, 150, 75);
+    };
+    imageObj.src = '../images/new-background.jpg';
+</script>

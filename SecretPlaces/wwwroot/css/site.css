@@ -1,0 +1,85 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
+for details on configuring this project to bundle and minify static web assets. */
+body {
+	padding-top: 50px;
+	background-image: url('../images/new-background.jpg');
+	height: 100%;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover
+}
+
+@font-face {
+    font-family: logoFont;
+    src: url('../lib/Sweet Hipster.ttf');
+}
+
+header {
+    border-radius: 25px;
+    background: linear-gradient(to bottom, #bfd255 0%,#8eb92a 50%,#72aa00 51%,#9ecb2d 100%);
+    padding: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: black;
+    text-align: center;
+}
+
+.hoverShadow {
+    transition: text-shadow 2s;
+}
+
+
+header h1:hover {
+    text-shadow: 2px 2px 8px #b7babf;
+}
+
+
+header h1 {
+    margin-top: 15px;
+    font-family: logoFont;
+    font-size: 6em;
+}
+
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+.body-content {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+    background-color: white;
+    border-radius: 1em;
+    overflow-x: hidden;
+}
+
+/* QR code generator */
+#qrCode {
+    margin: 15px;
+}
+
+/* Hide/rearrange for smaller screens */
+@media screen and (max-width: 767px) {
+    /* Hide captions */
+    .carousel-caption {
+        display: none;
+    }
+}
+
+.center-tag {
+    float: none;
+    margin: 0 auto;
+}
+
+aside {
+    width: 40%;
+    padding-left: .5rem;
+    margin-left: .5rem;
+    float: right;
+    box-shadow: inset 5px 0 5px -5px #29627e;
+    color: #29627e;
+}
+
+.navbar-inverse {
+    box-shadow: 0 8px 6px -6px #222;
+}

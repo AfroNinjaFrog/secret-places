@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<header class="header">
+    <h1 class="hoverShadow">Food Reviews</h1>
+    <p class="lead">Find the perfect place to visit!</p>
+</header>
+
+<div id="fb-root"></div>
+<script>
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/he_IL/sdk.js#xfbml=1&version=v3.1&appId=71958063747&autoLogAppEvents=1';
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
+
+<div class="row">
+    <div class="col-md-9">
+        <div>
+            <p><strong>We strive to be a place for food lovers to share their experiences from various restaurant from all around the world.</strong></p>
+
+            <p>If you want to find your next place to eat - look no further! Food Reviews will let you view thousands of user reviews so you can find the perfect place for you to visit!</p>
+
+            <p>Hope you enjoy and have a <strong>TASTY</strong> time :)</p>
+        </div>
+        <img src="~/images/new-background.jpg" class="img-responsive" />
+    </div>
+    <div class="col-md-3">
+        <div class="fb-page" data-href="https://www.facebook.com/BestEverSecretPlaceshow/" data-tabs="timeline" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="false"><blockquote cite="https://www.facebook.com/IWantToTravelTheWholeWorld/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/IWantToTravelTheWholeWorld/">‏‎I Want to Travel the Whole World‎‏</a></blockquote></div>
+    </div>
+</div>

@@ -1,0 +1,124 @@
+﻿@model IEnumerable<SecretPlaces.Models.Restaurant>
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@{
+    ViewData["Title"] = "Restaurants";
+}
+
+<h2>Restaurants</h2>
+
+<div class="row">
+    <div id='myMap' class="col-md-6 center-tag" style='width: 800px; height: 350px;'></div>
+</div>
+
+<hr /> <br />
+
+<form asp-controller="Restaurants" asp-action="Index" method="get" class="row">
+    <div class="col-md-3">
+        <input type="text" class="form-control" placeholder="Name" name="NameSearch">
+    </div>
+
+    <div class="col-md-3">
+        <select asp-items="Html.GetEnumSelectList<RestaurantType>()" class="form-control" name="RestaurantTypeSearch">
+            <option selected="selected" value="All">Select Restaurant Type</option>
+        </select>
+    </div>
+
+    <div class="col-md-3">
+        <select placeholder="Is Kosher" class="form-control dropdown" name="KosherSearch">
+            <option value="All">All Restaurants</option>
+            <option value="Yes">Kosher Restaurants</option>
+            <option value="No">NO Kosher Restaurants</option>
+        </select>
+    </div>
+    <input type="submit" value="Filter" class="btn btn-info" />
+</form>
+
+<hr />
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RestaurantType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsKosher)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RestaurantType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsKosher)
+                </td>
+                <td>
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        var user = await UserManager.GetUserAsync(User);
+
+                        if (user != null && user.IsAdmin)
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.ID">Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.ID">Details</a>
+                            <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@if (SignInManager.IsSignedIn(User))
+{
+    var user = await UserManager.GetUserAsync(User);
+    if (user != null && user.IsAdmin)
+    {
+        <div>
+            <button type="button" class="btn btn-info" onclick="location.href='@Url.Action("Create")'">
+                <span class="glyphicon glyphicon-pencil"></span> Add New Restaurant
+            </button>
+        </div>
+    }
+}
+@section Scripts {
+
+<script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?key=Ao7Xe17AnUYUK8HAlSP-2NScahkmdQyFxpgc6e6KqW350MqLhi--frvTRtJZ8lif&callback=loadMapScenario' async defer></script>
+
+<script type='text/javascript'>
+
+    function loadMapScenario() {
+        // Create map
+        var map = new Microsoft.Maps.Map(document.getElementById('myMap'), {
+            zoom: 2
+        });
+
+        // Serialize Model data
+        var mapsData = @Html.Raw(Json.Serialize(Model));
+        Microsoft.Maps.loadModule('Microsoft.Maps.Search', function () {
+            $.each(mapsData, function (i, item) {
+                var loc = new Microsoft.Maps.Location(item.lat,item.lon);
+                var pushpin = new Microsoft.Maps.Pushpin(loc, {
+                    icon: "images/map pin.png",
+                    title: item.name,
+                });
+                map.entities.push(pushpin);
+            });
+        });
+    }
+</script>
+}

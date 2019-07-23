@@ -1,0 +1,14 @@
+﻿@model SecretPlaces.Models.User
+
+@{
+    ViewData["Title"] = "Delete";
+}
+<br/>
+<h3>Are you sure you want to delete the user <strong>@Html.DisplayFor(model => model.Username)</strong>?</h3>
+<div>
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="ID"/>
+        <input type="submit" value="Confirm" class="btn btn-default"/> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

@@ -1,0 +1,41 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model SecretPlaces.Models.User
+
+@{
+    ViewData["Title"] = "Edit";
+}
+@inject UserManager<ApplicationUser> UserManager
+<h2>Edit User @Model.Username</h2>
+<hr/>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID"/>
+            <input type="hidden" asp-for="Username" class="form-control"/>
+
+            @if (Model.Username != UserManager.GetUserName(User))
+            {
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input asp-for="IsAdmin"/> @Html.DisplayNameFor(model => model.IsAdmin)
+                        </label>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <h5>You cannot edit your own permissions.</h5>
+            }
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

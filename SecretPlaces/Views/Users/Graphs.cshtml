@@ -1,0 +1,48 @@
+﻿@{
+    ViewData["Title"] = "Graphs";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .bar { fill: steelblue; }
+
+    .bar:hover { fill: brown; }
+</style>
+
+<h2>Users activity statistics</h2>
+<br/>
+<div>
+    <h3>Top users by reviews written</h3>
+    <section>
+        <svg id="users-reviews-bar-chart" width="960" height="500"></svg>
+    </section>
+</div>
+
+<hr/><br/>
+
+<div>
+    <h3>Top users by comments written</h3>
+    <section>
+        <svg id="users-comments-bar-chart" width="960" height="500"></svg>
+    </section>
+</div>
+
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script src="~/lib/graph.js"></script>
+<script src="~/lib/jquery/jquery-1.10.2.js"></script>
+<script>
+    $.ajax({
+        url: '/Users/GetReviewsGroupByUser',
+        success: function(data) {
+            createBarChartGraph(data, "users-reviews-bar-chart", "Total Reviews");
+        }
+    })
+</script>
+<script>
+    $.ajax({
+        url: '/Users/GetCommentsGroupByUser',
+        success: function(data) {
+            createBarChartGraph(data, "users-comments-bar-chart", "Total Comments");
+        }
+    })
+</script>

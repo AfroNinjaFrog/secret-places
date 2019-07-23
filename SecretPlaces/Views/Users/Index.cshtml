@@ -1,0 +1,62 @@
+﻿@model IEnumerable<SecretPlaces.Models.User>
+
+@{
+    ViewData["Title"] = "Users";
+}
+
+@using Microsoft.AspNetCore.Identity
+@using SecretPlaces.Models
+@inject UserManager<ApplicationUser> UserManager
+
+<h2>Users</h2>
+
+
+<form asp-controller="Users" asp-action="Index" method="get" class="row">
+    <div class="col-md-3">
+        <input type="text" class="form-control" placeholder="Name" name="UserNameSearch">
+    </div>
+
+
+    <div class="col-md-3">
+        <select placeholder="Is Kosher" class="form-control dropdown" name="AdminSearch">
+            <option value="All">All Privilages</option>
+            <option value="Yes">Admin</option>
+            <option value="No">Not Admin</option>
+        </select>
+    </div>
+    <input type="submit" value="Filter" class="btn btn-info"/>
+</form>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Username)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsAdmin)
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Username)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsAdmin)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                @if (item.Username != UserManager.GetUserName(User))
+                {
+                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

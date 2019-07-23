@@ -1,0 +1,83 @@
+﻿@model IEnumerable<SecretPlaces.Models.GroupByRestaurant>
+
+@{
+    ViewData["Title"] = "Graphs";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .bar {
+        fill: green;
+    }
+
+        .bar:hover {
+            fill: orange;
+        }
+</style>
+
+<h2>Reviews Statistics</h2>
+<br />
+
+<div>
+    <h3>The most popular restaurants by amount of reviews</h3>
+    <br />
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RestaurantName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalReviews)
+            </th>
+        </tr>
+
+        @{
+            foreach (var review in Model)
+            {
+                <tr>
+                    <td>
+                        @review.RestaurantName
+                    </td>
+                    <td>
+                        @review.TotalReviews
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+    <br />
+</div>
+
+<section>
+    <div id="reviews-pie-chart" class="col-md-6 center-tag"></div>
+</section>
+<hr />
+
+<div>
+    <h3>The most popular reviews by amount of comments</h3>
+    <br />
+    <section>
+        <svg id="reviews-comments-bar-chart" width="960" height="500"></svg>
+    </section>
+</div>
+
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script src="~/lib/graph.js"></script>
+<script src="~/lib/jquery/jquery-1.10.2.js"></script>
+
+<script>
+    $.ajax({
+        url: '/Reviews/GetGroupByRestaurant',
+        success: function (data) {
+            createPopularReviewsGraph(data, "reviews-pie-chart");
+        }
+    })
+</script>
+<script>
+    $.ajax({
+        url: '/Reviews/GetCommentsGroupByReview',
+        success: function (data) {
+            createBarChartGraph(data, "reviews-comments-bar-chart", "Total Comments");
+        }
+    })
+</script>

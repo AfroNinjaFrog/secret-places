@@ -1,0 +1,117 @@
+﻿@model IEnumerable<SecretPlaces.Models.Review>
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@{
+    ViewData["Title"] = "Reviews";
+}
+
+<div class="row">
+    <h1 class="col-md-9">Restaurant Reviews</h1>
+    @if (SignInManager.IsSignedIn(User))
+    {
+        var user = await UserManager.GetUserAsync(User);
+
+        if (user != null)
+        {
+    <button style="margin-right: 10px; margin-top: 20px; float:right;" type="button" class="btn btn-info" onclick="location.href='@Url.Action("Create")'">
+        <span class="glyphicon glyphicon-pencil"></span> Write New Review
+    </button>
+        }
+    }
+</div>
+
+<form asp-controller="Reviews" asp-action="Index" method="get" class="row">
+    <div class="col-md-3">
+        <input type="text" class="form-control" placeholder="Title" name="TitleSearchString">
+    </div>
+    <div class="col-md-3">
+        <input type="date" class="form-control" placeholder="Publish Date" name="DateSearch" />
+    </div>
+    <div class="col-md-3">
+        <select asp-items="ViewBag.RestaurantID" class="form-control" id="restaurantsList" name="RestaurantSearch"></select>
+    </div>
+    <input type="submit" value="Filter" class="btn btn-info" />
+
+</form>
+
+<div class="row">
+    <div class="col-lg-8">
+        @foreach (var item in Model)
+        {
+            <section>
+                <h3>@Html.DisplayFor(modelItem => item.Title)</h3>
+                <i class="glyphicon glyphicon-user"></i> <strong>@Html.DisplayFor(modelItem => item.UploaderUsername)</strong>
+                <hr>
+                <p>
+                    <span class="glyphicon glyphicon-globe"></span> <strong>@Html.DisplayFor(modelItem => item.Restaurant.Name)</strong>
+                </p>
+                <p class="small">
+                    <span class="glyphicon glyphicon-calendar"></span> Posted on @Html.DisplayFor(modelItem => item.PublishDate)
+                </p>
+                <p>
+                    @Html.DisplayFor(modelItem => item.Content)
+                </p>
+                <p>
+                    @if (item.UploaderUsername != null && item.UploaderUsername.Equals(UserManager.GetUserName(User)))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.ID">Edit</a>
+                        <a asp-action="Details" asp-route-id="@item.ID">Details</a>
+                        <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                    }
+                </p>
+            </section>
+            @if (SignInManager.IsSignedIn(User))
+            {
+                var user = await UserManager.GetUserAsync(User);
+
+                if (user != null)
+                {
+                    <div class="row" style="margin: 0px;">
+                        <div class="well well-sm col-md-6">
+                            <p><i class="glyphicon glyphicon-send"></i> Leave a Comment:</p>
+                            @using (Html.BeginForm("PostComment", "Reviews"))
+                            {
+                                <input type="hidden" name="reviewId" value="@item.ID" />
+                                <div class="form-group">
+                                    <textarea name="content" class="form-control" rows="2"></textarea>
+                                </div>
+                                <button type="submit" value="post" class="btn btn-info">Submit</button>
+                            }
+                        </div>
+                    </div>
+                }
+            }
+            @foreach (var comment in item.Comments)
+            {
+                <section>
+                    <p>
+                        <span class="glyphicon glyphicon-comment"></span>
+                        @Html.DisplayFor(modelItem => comment.UploaderUsername):
+                        <br />
+                        <small>@Html.DisplayFor(modelItem => comment.CreationDate)</small>
+                    </p>
+                    <p>@Html.DisplayFor(modelItem => comment.Content)</p>
+
+                    @if (comment.UploaderUsername != null && comment.UploaderUsername.Equals(UserManager.GetUserName(User)))
+                    {
+                        @using (Html.BeginForm("DeleteComment", "Reviews"))
+                        {
+                            <input type="hidden" name="id" value="@comment.ID" />
+                            <button type="submit" class="btn btn-light btn-sm"><span class="glyphicon glyphicon-trash"></span></button>
+                        }
+                    }
+                </section>
+            }
+
+                    <br />
+                }
+            </div>
+</div>
+
+<script>
+    window.onload = function () {
+        $("#restaurantsList").prop("selectedIndex", -1);
+    };   
+</script>
