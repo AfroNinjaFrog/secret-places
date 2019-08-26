@@ -8,7 +8,7 @@
 }
 
 <div class="row">
-    <h1 class="col-md-9">Restaurant Reviews</h1>
+    <h1 class="col-md-9">Place Reviews</h1>
     @if (SignInManager.IsSignedIn(User))
     {
         var user = await UserManager.GetUserAsync(User);
@@ -30,7 +30,7 @@
         <input type="date" class="form-control" placeholder="Publish Date" name="DateSearch" />
     </div>
     <div class="col-md-3">
-        <select asp-items="ViewBag.RestaurantID" class="form-control" id="restaurantsList" name="RestaurantSearch"></select>
+        <select asp-items="ViewBag.PlaceID" class="form-control" id="PlacesList" name="PlaceSearch"></select>
     </div>
     <input type="submit" value="Filter" class="btn btn-info" />
 
@@ -45,7 +45,7 @@
                 <i class="glyphicon glyphicon-user"></i> <strong>@Html.DisplayFor(modelItem => item.UploaderUsername)</strong>
                 <hr>
                 <p>
-                    <span class="glyphicon glyphicon-globe"></span> <strong>@Html.DisplayFor(modelItem => item.Restaurant.Name)</strong>
+                    <span class="glyphicon glyphicon-globe"></span> <strong>@Html.DisplayFor(modelItem => item.Place.Name)</strong>
                 </p>
                 <p class="small">
                     <span class="glyphicon glyphicon-calendar"></span> Posted on @Html.DisplayFor(modelItem => item.PublishDate)
@@ -112,6 +112,6 @@
 
 <script>
     window.onload = function () {
-        $("#restaurantsList").prop("selectedIndex", -1);
+        $("#PlacesList").prop("selectedIndex", -1);
     };   
 </script>

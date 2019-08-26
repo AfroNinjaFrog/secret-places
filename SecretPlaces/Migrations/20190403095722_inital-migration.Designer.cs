@@ -96,7 +96,7 @@ namespace WorldOfTravels.Migrations
                     b.ToTable("Comment");
                 });
 
-            modelBuilder.Entity("SecretPlaces.Models.Restaurant", b =>
+            modelBuilder.Entity("SecretPlaces.Models.Place", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -107,7 +107,7 @@ namespace WorldOfTravels.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<int>("RestaurantType");
+                    b.Property<int>("PlaceType");
 
                     b.Property<double>("lat");
 
@@ -115,7 +115,7 @@ namespace WorldOfTravels.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Restaurant");
+                    b.ToTable("Place");
                 });
 
             modelBuilder.Entity("SecretPlaces.Models.Review", b =>
@@ -130,7 +130,7 @@ namespace WorldOfTravels.Migrations
 
                     b.Property<DateTime>("PublishDate");
 
-                    b.Property<int>("RestaurantID");
+                    b.Property<int>("PlaceID");
 
                     b.Property<string>("Title")
                         .IsRequired();
@@ -139,7 +139,7 @@ namespace WorldOfTravels.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("RestaurantID");
+                    b.HasIndex("PlaceID");
 
                     b.ToTable("Review");
                 });
@@ -283,9 +283,9 @@ namespace WorldOfTravels.Migrations
 
             modelBuilder.Entity("SecretPlaces.Models.Review", b =>
                 {
-                    b.HasOne("SecretPlaces.Models.Restaurant", "Restaurant")
+                    b.HasOne("SecretPlaces.Models.Place", "Place")
                         .WithMany("Posts")
-                        .HasForeignKey("RestaurantID")
+                        .HasForeignKey("PlaceID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

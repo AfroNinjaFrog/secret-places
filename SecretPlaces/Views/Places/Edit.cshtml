@@ -1,32 +1,22 @@
-﻿@model SecretPlaces.Models.Restaurant
+﻿@model SecretPlaces.Models.Place
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
 }
 
-<h2>Add a new Restaurant</h2>
+<h2>Edit Place</h2>
 
 <hr />
-
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
-
+        <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID" />
 
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label class="control-label" for="City">City</label>
-                <div>
-                    <select asp-for="RestaurantType" asp-items="Html.GetEnumSelectList<RestaurantType>()" class="form-contcontrol dropdown"></select>
-                    @Html.ValidationMessageFor(model => model.RestaurantType)
-                    <span asp-validation-for="RestaurantType" class="text-danger" rows="2"></span>
-                </div>
             </div>
             
             <div class="form-group">
@@ -42,13 +32,7 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="IsKosher" class="control-label"></label>
-                <input asp-for="IsKosher" class="checkbox" />
-                <span asp-validation-for="IsKosher" class="text-danger" rows="2"></span>
-            </div>
-
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>

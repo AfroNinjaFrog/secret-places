@@ -9,7 +9,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Food Reviews</title>
+    <title>@ViewData["Title"] - Secret Places</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -33,13 +33,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Food Reviews</a>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Secret Places</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Reviews" asp-action="Index">Reviews</a></li>
-                    <li><a asp-area="" asp-controller="Reviews" asp-action="RecommendedRestaurants">Recommended</a></li>
-                    <li><a asp-area="" asp-controller="Restaurants" asp-action="Index">Restaurants</a></li>
+                    <li><a asp-area="" asp-controller="Reviews" asp-action="RecommendedPlaces">Recommended</a></li>
+                    <li><a asp-area="" asp-controller="Places" asp-action="Index">Places</a></li>
                     @if (SignInManager.IsSignedIn(User))
                     {
                         var user = await UserManager.GetUserAsync(User);

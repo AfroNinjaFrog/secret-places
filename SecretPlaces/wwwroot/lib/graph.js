@@ -32,13 +32,13 @@ function createPopularReviewsGraph(data, id) {
 
     g.append("path")
         .attr("d", arc)
-        .style("fill", function (d) { return color(d.data.restaurantName); });
+        .style("fill", function (d) { return color(d.data.PlaceName); });
 
     g.append("text")
         .attr("transform", function (d) { return "translate(" + arc.centroid(d) + ")"; })
         .attr("dy", ".35em")
         .style("text-anchor", "middle")
-        .text(function (d) { return d.data.restaurantName; });
+        .text(function (d) { return d.data.PlaceName; });
 }
 
 // bar chart

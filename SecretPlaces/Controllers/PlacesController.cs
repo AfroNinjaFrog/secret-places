@@ -11,44 +11,44 @@ using Microsoft.AspNetCore.Identity;
 
 namespace SecretPlaces.Controllers
 {
-    public class RestaurantsController : Controller
+    public class PlacesController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _manager;
-        public RestaurantsController(ApplicationDbContext context, UserManager<ApplicationUser> manager)
+        public PlacesController(ApplicationDbContext context, UserManager<ApplicationUser> manager)
         {
             _context = context;
             _manager = manager;
 
         }
 
-        // GET: Restaurants
-        public async Task<IActionResult> Index(string NameSearch, string RestaurantTypeSearch, string KosherSearch)
+        // GET: Places
+        public async Task<IActionResult> Index(string NameSearch, string PlaceTypeSearch, string KosherSearch)
         {
-            var restaurants = from d in _context.Restaurant
+            var Places = from d in _context.Place
                             select d;
 
             if (!String.IsNullOrEmpty(NameSearch))
             {
-                restaurants = restaurants.Where(p => p.Name.Contains(NameSearch));
+                Places = Places.Where(p => p.Name.Contains(NameSearch));
             }
 
-            if (!String.IsNullOrEmpty(RestaurantTypeSearch) && !RestaurantTypeSearch.Equals("All"))
+            /*if (!String.IsNullOrEmpty(PlaceTypeSearch) && !PlaceTypeSearch.Equals("All"))
             {
-                var restaurantType = (RestaurantType)Convert.ToInt32(RestaurantTypeSearch);
-                restaurants = restaurants.Where(p => p.RestaurantType.Equals(restaurantType));
+                var PlaceType = (PlaceType)Convert.ToInt32(PlaceTypeSearch);
+                Places = Places.Where(p => p.PlaceType.Equals(PlaceType));
             }
 
             if (!String.IsNullOrEmpty(KosherSearch) && !KosherSearch.Equals("All"))
             {
                 var isKosher = KosherSearch.Equals("Yes");
-                restaurants = restaurants.Where(p => p.IsKosher == isKosher);
-            }
+                Places = Places.Where(p => p.IsKosher == isKosher);
+            }*/
             
-            return View(await restaurants.ToListAsync());
+            return View(await Places.ToListAsync());
         }
 
-        // GET: Restaurants/Details/5
+        // GET: Places/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -56,44 +56,44 @@ namespace SecretPlaces.Controllers
                 return NotFound();
             }
 
-            var restaurant = await _context.Restaurant
+            var Place = await _context.Place
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (restaurant == null)
+            if (Place == null)
             {
                 return NotFound();
             }
 
-            return View(restaurant);
+            return View(Place);
         }
 
-        // GET: Restaurants/Create
+        // GET: Places/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Restaurants/Create
+        // POST: Places/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Name,RestaurantType,IsKosher,lon,lat")] Restaurant restaurant)
+        public async Task<IActionResult> Create([Bind("ID,Name,lon,lat")] Place Place)
         {
             var loggedUser = await _manager.GetUserAsync(User);
 
-            if (loggedUser == null || !loggedUser.IsAdmin)
+            if (loggedUser == null)
             {
                 return RedirectToAction("Index");
             }
 
             if (ModelState.IsValid)
             {
-                _context.Add(restaurant);
+                _context.Add(Place);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(restaurant);
+            return View(Place);
         }
 
-        // GET: Restaurants/Edit/5
+        // GET: Places/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             var loggedUser = await _manager.GetUserAsync(User);
@@ -108,18 +108,18 @@ namespace SecretPlaces.Controllers
                 return NotFound();
             }
 
-            var restaurant = await _context.Restaurant.FindAsync(id);
-            if (restaurant == null)
+            var Place = await _context.Place.FindAsync(id);
+            if (Place == null)
             {
                 return NotFound();
             }
-            return View(restaurant);
+            return View(Place);
         }
 
-        // POST: Restaurants/Edit/5
+        // POST: Places/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,RestaurantType,IsKosher,lon,lat")] Restaurant restaurant)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,lon,lat")] Place Place)
         {
             var loggedUser = await _manager.GetUserAsync(User);
 
@@ -128,7 +128,7 @@ namespace SecretPlaces.Controllers
                 return RedirectToAction("Index");
             }
 
-            if (id != restaurant.ID)
+            if (id != Place.ID)
             {
                 return NotFound();
             }
@@ -137,12 +137,12 @@ namespace SecretPlaces.Controllers
             {
                 try
                 {
-                    _context.Update(restaurant);
+                    _context.Update(Place);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RestaurantExists(restaurant.ID))
+                    if (!PlaceExists(Place.ID))
                     {
                         return NotFound();
                     }
@@ -154,10 +154,10 @@ namespace SecretPlaces.Controllers
 
                 return RedirectToAction("Index");
             }
-            return View(restaurant);
+            return View(Place);
         }
 
-        // GET: Restaurants/Delete/5
+        // GET: Places/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             var loggedUser = await _manager.GetUserAsync(User);
@@ -172,17 +172,17 @@ namespace SecretPlaces.Controllers
                 return NotFound();
             }
 
-            var restaurant = await _context.Restaurant
+            var Place = await _context.Place
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (restaurant == null)
+            if (Place == null)
             {
                 return NotFound();
             }
 
-            return View(restaurant);
+            return View(Place);
         }
 
-        // POST: Restaurants/Delete/5
+        // POST: Places/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -194,15 +194,15 @@ namespace SecretPlaces.Controllers
                 return RedirectToAction("Index");
             }
 
-            var restaurant = await _context.Restaurant.FindAsync(id);
-            _context.Restaurant.Remove(restaurant);
+            var Place = await _context.Place.FindAsync(id);
+            _context.Place.Remove(Place);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool RestaurantExists(int id)
+        private bool PlaceExists(int id)
         {
-            return _context.Restaurant.Any(e => e.ID == id);
+            return _context.Place.Any(e => e.ID == id);
         }
     }
 }

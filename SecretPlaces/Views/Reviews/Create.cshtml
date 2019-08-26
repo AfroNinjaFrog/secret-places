@@ -17,10 +17,10 @@
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label class="control-label" for="RestaurantID">Restaurant</label>
+                <label class="control-label" for="PlaceID">Place</label>
                 <div> 
-                    @Html.DropDownList("RestaurantID", null, htmlAttributes: new { @class = "form-control dropdown" })
-                    @Html.ValidationMessageFor(model => model.Restaurant)
+                    @Html.DropDownList("PlaceID", null, htmlAttributes: new { @class = "form-control dropdown" })
+                    @Html.ValidationMessageFor(model => model.Place)
                 </div>
             </div>
             <div class="form-group">

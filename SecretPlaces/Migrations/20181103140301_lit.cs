@@ -49,20 +49,18 @@ namespace WorldOfTravels.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Restaurant",
+                name: "Place",
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: false),
-                    Continent = table.Column<int>(nullable: false),
                     lon = table.Column<double>(nullable: false),
                     lat = table.Column<double>(nullable: false),
-                    IsKosher = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Restaurant", x => x.ID);
+                    table.PrimaryKey("PK_Place", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -194,16 +192,16 @@ namespace WorldOfTravels.Migrations
                     Content = table.Column<string>(nullable: true),
                     PublishDate = table.Column<DateTime>(nullable: false),
                     UploaderUsername = table.Column<string>(nullable: true),
-                    RestaurantID = table.Column<int>(nullable: false),
+					PlaceID = table.Column<int>(nullable: false),
                     IsRecommended = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Review", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Review_Restaurant_RestaurantID",
-                        column: x => x.RestaurantID,
-                        principalTable: "Restaurant",
+                        name: "FK_Review_Place_PlaceID",
+                        column: x => x.PlaceID,
+                        principalTable: "Place",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -275,9 +273,9 @@ namespace WorldOfTravels.Migrations
                 column: "ReviewID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Review_RestaurantID",
+                name: "IX_Review_PlaceID",
                 table: "Review",
-                column: "RestaurantID");
+                column: "PlaceID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -313,7 +311,7 @@ namespace WorldOfTravels.Migrations
                 name: "Review");
 
             migrationBuilder.DropTable(
-                name: "Restaurant");
+                name: "Place");
         }
     }
 }

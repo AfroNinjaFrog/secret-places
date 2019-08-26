@@ -24,19 +24,19 @@ namespace SecretPlaces.Models
         public string UploaderUsername { get; set; }
 
         [Required]
-        public int RestaurantID { get; set; }
+        public int PlaceID { get; set; }
 
-        public virtual Restaurant Restaurant { get; set; }
+        public virtual Place Place { get; set; }
 
         public virtual List<Comment> Comments { get; set; }
 
         public virtual bool IsRecommended { get; set; }
     }
 
-    public class GroupByRestaurant
+    public class GroupByPlace
     {
-        [Display(Name = "Restaurant Name")]
-        public string RestaurantName { get; set; }
+        [Display(Name = "Place Name")]
+        public string PlaceName { get; set; }
 
         [Display(Name = "Total Reviews")]
         public int TotalReviews { get; set; }

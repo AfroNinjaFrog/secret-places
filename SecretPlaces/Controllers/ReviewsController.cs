@@ -26,14 +26,14 @@ namespace SecretPlaces.Controllers
         }
 
         // GET: Reviews
-        public async Task<IActionResult> Index(string TitleSearchString, string DateSearch, int RestaurantSearch)
+        public async Task<IActionResult> Index(string TitleSearchString, string DateSearch, int PlaceSearch)
         {
             var reviews = from d in _context.Review
                         select d;
 
             foreach (var currentReview in reviews)
             {
-                currentReview.Restaurant = _context.Restaurant.First(c => c.ID == currentReview.RestaurantID);
+                currentReview.Place = _context.Place.First(c => c.ID == currentReview.PlaceID);
                 currentReview.Comments = _context.Comment.Where(c => c.ReviewID == currentReview.ID).ToList();
             }
 
@@ -47,12 +47,12 @@ namespace SecretPlaces.Controllers
                 reviews = reviews.Where(p => p.PublishDate.Date == DateTime.Parse(DateSearch).Date);
             }
 
-            if (RestaurantSearch != -1 && RestaurantSearch != 0)
+            if (PlaceSearch != -1 && PlaceSearch != 0)
             {
-                reviews = reviews.Where(p => p.RestaurantID == RestaurantSearch);
+                reviews = reviews.Where(p => p.PlaceID == PlaceSearch);
             }
 
-            PopulateRestaurantsSearchList();
+            PopulatePlacesSearchList();
 
             return View(await reviews.OrderByDescending(p => p.PublishDate).ToListAsync());
         }
@@ -78,7 +78,7 @@ namespace SecretPlaces.Controllers
         // GET: Reviews/Create
         public IActionResult Create()
         {
-            PopulateRestaurantsDropDownList();
+            PopulatePlacesDropDownList();
             return View();
         }
 
@@ -87,7 +87,7 @@ namespace SecretPlaces.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Content,Title,RestaurantID")] Review review)
+        public async Task<IActionResult> Create([Bind("ID,Content,Title,PlaceID")] Review review)
         {
             var loggedUser = await _manager.GetUserAsync(User);
 
@@ -98,8 +98,8 @@ namespace SecretPlaces.Controllers
 
             if (!ModelState.IsValid) return View(review);
             review.PublishDate = DateTime.Now;
-            review.Restaurant = (Restaurant)(from d in _context.Restaurant
-                where d.ID == review.RestaurantID
+            review.Place = (Place)(from d in _context.Place
+                where d.ID == review.PlaceID
                 select d).First();
 
             review.UploaderUsername = HttpContext.User.Identity.Name;
@@ -170,7 +170,7 @@ namespace SecretPlaces.Controllers
             {
                 return NotFound();
             }
-            PopulateRestaurantsDropDownList(review.RestaurantID);
+            PopulatePlacesDropDownList(review.PlaceID);
             return View(review);
         }
 
@@ -179,7 +179,7 @@ namespace SecretPlaces.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Content,Title,PublishDate,RestaurantID")] Review review)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Content,Title,PublishDate,PlaceID")] Review review)
         {
             var loggedUser = await _manager.GetUserAsync(User);
 
@@ -198,8 +198,8 @@ namespace SecretPlaces.Controllers
                 try
                 {
                     review.PublishDate = DateTime.Now;
-                    review.Restaurant = (Restaurant)(from d in _context.Restaurant
-                                             where d.ID == review.RestaurantID
+                    review.Place = (Place)(from d in _context.Place
+                                             where d.ID == review.PlaceID
                                              select d).First();
                     review.UploaderUsername = HttpContext.User.Identity.Name;
                     _context.Update(review);
@@ -218,7 +218,7 @@ namespace SecretPlaces.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            PopulateRestaurantsDropDownList(review.RestaurantID);
+            PopulatePlacesDropDownList(review.PlaceID);
             return View(review);
         }
 
@@ -238,7 +238,7 @@ namespace SecretPlaces.Controllers
             }
 
             var review = await _context.Review
-                .Include(p => p.Restaurant)
+                .Include(p => p.Place)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (review == null)
             {
@@ -277,41 +277,41 @@ namespace SecretPlaces.Controllers
             return _context.Review.Any(e => e.ID == id);
         }
 
-        private void PopulateRestaurantsDropDownList(object selectedRestaurant = null)
+        private void PopulatePlacesDropDownList(object selectedPlace = null)
         {
-            var RestaurantQuery = from d in _context.Restaurant
+            var PlaceQuery = from d in _context.Place
                                    orderby d.Name
                                    select d;
 
-            ViewBag.RestaurantID = new SelectList(RestaurantQuery, "ID", "Name", selectedRestaurant);
+            ViewBag.PlaceID = new SelectList(PlaceQuery, "ID", "Name", selectedPlace);
         }
 
-        private void PopulateRestaurantsSearchList()
+        private void PopulatePlacesSearchList()
         {
-            var restaurantsQuery = from d in _context.Restaurant
+            var PlacesQuery = from d in _context.Place
                                  orderby d.Name
                                  select d;
 
-            ViewBag.RestaurantID = new SelectList(restaurantsQuery, "ID", "Name", null);
+            ViewBag.PlaceID = new SelectList(PlacesQuery, "ID", "Name", null);
         }
 
-        // GET: Reviews/GroupByRestaurant
+        // GET: Reviews/GroupByPlace
         public async Task<ActionResult> Graphs()
         {
             var query = from review in _context.Review
-                        group review by review.RestaurantID into p
-                        join restaurant in _context.Restaurant on p.Key equals restaurant.ID
-                        select new GroupByRestaurant() { RestaurantName = restaurant.Name, TotalReviews = p.Sum(s => 1) };
+                        group review by review.PlaceID into p
+                        join Place in _context.Place on p.Key equals Place.ID
+                        select new GroupByPlace() { PlaceName = Place.Name, TotalReviews = p.Sum(s => 1) };
 
             return View(await query.OrderByDescending(p => p.TotalReviews).ToListAsync());
         }
 
         [HttpGet]
-        public ActionResult GetGroupByRestaurant()
+        public ActionResult GetGroupByPlace()
         {
             var query = from review in _context.Review
-                        group review by review.Restaurant.Name into g
-                        select new GroupByRestaurant() { RestaurantName = g.Key, TotalReviews = g.Sum(p => 1) };
+                        group review by review.Place.Name into g
+                        select new GroupByPlace() { PlaceName = g.Key, TotalReviews = g.Sum(p => 1) };
 
             return Json(query);
         }
@@ -327,7 +327,7 @@ namespace SecretPlaces.Controllers
             return Json(query.OrderByDescending(p => p.Count));
         }
 
-        public IActionResult RecommendedRestaurants()
+        public IActionResult RecommendedPlaces()
         {
             // Load the predifined data for smv algorithm
             var dataFilePath = "./wwwroot/svm/words.csv";
@@ -373,7 +373,7 @@ namespace SecretPlaces.Controllers
 
             foreach (var review in recommendedReviews)
             {
-                review.Restaurant = _context.Restaurant.First(c => c.ID == review.RestaurantID);
+                review.Place = _context.Place.First(c => c.ID == review.PlaceID);
                 review.Comments = _context.Comment.Where(c => c.ReviewID == review.ID).ToList();
             }
 

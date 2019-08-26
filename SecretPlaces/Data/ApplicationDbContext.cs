@@ -13,7 +13,7 @@ namespace SecretPlaces.Data
             : base(options)
         {
         }
-        public DbSet<Restaurant> Restaurant { get; set; }
+        public DbSet<Place> Place { get; set; }
         public DbSet<Review> Review { get; set; }
         public DbSet<Comment> Comment { get; set; }
         public DbSet<User> User { get; set; }

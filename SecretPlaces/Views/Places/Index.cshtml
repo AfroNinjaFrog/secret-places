@@ -1,13 +1,13 @@
-﻿@model IEnumerable<SecretPlaces.Models.Restaurant>
+﻿@model IEnumerable<SecretPlaces.Models.Place>
 @using Microsoft.AspNetCore.Identity
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 @{
-    ViewData["Title"] = "Restaurants";
+    ViewData["Title"] = "Places";
 }
 
-<h2>Restaurants</h2>
+<h2>Place</h2>
 
 <div class="row">
     <div id='myMap' class="col-md-6 center-tag" style='width: 800px; height: 350px;'></div>
@@ -15,24 +15,12 @@
 
 <hr /> <br />
 
-<form asp-controller="Restaurants" asp-action="Index" method="get" class="row">
+<form asp-controller="Places" asp-action="Index" method="get" class="row">
     <div class="col-md-3">
         <input type="text" class="form-control" placeholder="Name" name="NameSearch">
     </div>
 
-    <div class="col-md-3">
-        <select asp-items="Html.GetEnumSelectList<RestaurantType>()" class="form-control" name="RestaurantTypeSearch">
-            <option selected="selected" value="All">Select Restaurant Type</option>
-        </select>
-    </div>
-
-    <div class="col-md-3">
-        <select placeholder="Is Kosher" class="form-control dropdown" name="KosherSearch">
-            <option value="All">All Restaurants</option>
-            <option value="Yes">Kosher Restaurants</option>
-            <option value="No">NO Kosher Restaurants</option>
-        </select>
-    </div>
+    
     <input type="submit" value="Filter" class="btn btn-info" />
 </form>
 
@@ -44,12 +32,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RestaurantType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsKosher)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -59,12 +41,6 @@
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RestaurantType)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IsKosher)
                 </td>
                 <td>
                     @if (SignInManager.IsSignedIn(User))
@@ -83,18 +59,12 @@
         }
     </tbody>
 </table>
-@if (SignInManager.IsSignedIn(User))
-{
-    var user = await UserManager.GetUserAsync(User);
-    if (user != null && user.IsAdmin)
-    {
-        <div>
-            <button type="button" class="btn btn-info" onclick="location.href='@Url.Action("Create")'">
-                <span class="glyphicon glyphicon-pencil"></span> Add New Restaurant
-            </button>
-        </div>
-    }
-}
+
+<div>
+    <button type="button" class="btn btn-info" onclick="location.href='@Url.Action("Create")'">
+        <span class="glyphicon glyphicon-pencil"></span> Add New Place
+    </button>
+</div>
 @section Scripts {
 
 <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?key=Ao7Xe17AnUYUK8HAlSP-2NScahkmdQyFxpgc6e6KqW350MqLhi--frvTRtJZ8lif&callback=loadMapScenario' async defer></script>

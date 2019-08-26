@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SecretPlaces.Models.GroupByRestaurant>
+﻿@model IEnumerable<SecretPlaces.Models.GroupByPlace>
 
 @{
     ViewData["Title"] = "Graphs";
@@ -19,12 +19,12 @@
 <br />
 
 <div>
-    <h3>The most popular restaurants by amount of reviews</h3>
+    <h3>The most popular Places by amount of reviews</h3>
     <br />
     <table class="table">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.RestaurantName)
+                @Html.DisplayNameFor(model => model.PlaceName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.TotalReviews)
@@ -36,7 +36,7 @@
             {
                 <tr>
                     <td>
-                        @review.RestaurantName
+                        @review.PlaceName
                     </td>
                     <td>
                         @review.TotalReviews
@@ -67,7 +67,7 @@
 
 <script>
     $.ajax({
-        url: '/Reviews/GetGroupByRestaurant',
+        url: '/Reviews/GetGroupByPlace',
         success: function (data) {
             createPopularReviewsGraph(data, "reviews-pie-chart");
         }

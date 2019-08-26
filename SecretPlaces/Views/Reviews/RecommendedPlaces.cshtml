@@ -4,11 +4,11 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 @{
-    ViewData["Title"] = "Recommended Restaurants";
+    ViewData["Title"] = "Recommended Places";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Recommended Restaurants</h2>
+<h2>Recommended Places</h2>
 
 <div class="row">
     <div class="col-lg-8">
@@ -19,7 +19,7 @@
                 <i class="glyphicon glyphicon-user"></i> <strong>@Html.DisplayFor(modelItem => item.UploaderUsername)</strong>
                 <hr>
                 <p>
-                    <span class="glyphicon glyphicon-globe"></span> <strong>@Html.DisplayFor(modelItem => item.Restaurant.Name)</strong>
+                    <span class="glyphicon glyphicon-globe"></span> <strong>@Html.DisplayFor(modelItem => item.Place.Name)</strong>
                 </p>
                 <p class="small">
                     <span class="glyphicon glyphicon-calendar"></span> Posted on @Html.DisplayFor(modelItem => item.PublishDate)
@@ -86,6 +86,6 @@
 
 <script>
     window.onload = function () {
-        $("#restaurantsList").prop("selectedIndex", -1);
+        $("#PlacesList").prop("selectedIndex", -1);
     };
 </script>

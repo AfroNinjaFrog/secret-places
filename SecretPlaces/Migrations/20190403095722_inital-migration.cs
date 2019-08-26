@@ -8,24 +8,24 @@ namespace WorldOfTravels.Migrations
         {
             migrationBuilder.DropColumn(
                 name: "Continent",
-                table: "Restaurant");
+                table: "Place");
 
-            migrationBuilder.AddColumn<int>(
+            /*migrationBuilder.AddColumn<int>(
                 name: "RestaurantType",
                 table: "Restaurant",
                 nullable: false,
-                defaultValue: 0);
+                defaultValue: 0);*/
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
+            /*migrationBuilder.DropColumn(
                 name: "RestaurantType",
-                table: "Restaurant");
+                table: "Restaurant");*/
 
             migrationBuilder.AddColumn<int>(
                 name: "Continent",
-                table: "Restaurant",
+                table: "Place",
                 nullable: false,
                 defaultValue: 0);
         }
