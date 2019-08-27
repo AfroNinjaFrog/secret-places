@@ -273,3 +273,5 @@ obj/
 [Tt]est[Rr]esult*
 #Nuget packages folder
 packages/
+/SecretPlaces/Migrations/20190827125342_azure-db.Designer.cs
+/SecretPlaces/Migrations/20190827125342_azure-db.cs
