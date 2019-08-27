@@ -37,20 +37,27 @@ namespace SecretPlaces.Controllers
 
             if (!String.IsNullOrEmpty(UserNameSearch))
             {
-              applicationUsers = applicationUsers.Where(u => u.UserName.Contains(UserNameSearch)).ToList();
+                applicationUsers = applicationUsers.Where(u => u.UserName.Contains(UserNameSearch)).ToList();
             }
 
             if (!String.IsNullOrEmpty(AdminSearch) && !AdminSearch.Equals("All"))
             {
                 var isAdmin = AdminSearch.Equals("Yes");
-                applicationUsers = applicationUsers.Where(u => u.IsAdmin== isAdmin).ToList();
+                applicationUsers = applicationUsers.Where(u => u.IsAdmin == isAdmin).ToList();
             }
 
             List<User> UsersList = new List<User>();
 
             foreach (var user in applicationUsers)
             {
-                User UserModel = new User { ID = user.Id, Username = user.UserName, IsAdmin = user.IsAdmin };
+                User UserModel = new User
+                {
+                    ID = user.Id,
+                    Username = user.UserName,
+                    Firstname = user.Firstname,
+                    Lastname = user.Lastname,
+                    IsAdmin = user.IsAdmin
+                };
                 UsersList.Add(UserModel);
             }
 
@@ -80,7 +87,14 @@ namespace SecretPlaces.Controllers
                 return NotFound();
             }
 
-            return View(new User { ID = user.Id, Username = user.UserName, IsAdmin = user.IsAdmin});
+            return View(new User
+            {
+                ID = user.Id,
+                Username = user.UserName,
+                Firstname = user.Firstname,
+                Lastname = user.Lastname,
+                IsAdmin = user.IsAdmin
+            });
         }
 
         // POST: Users/Edit/5
@@ -168,7 +182,14 @@ namespace SecretPlaces.Controllers
                 return NotFound();
             }
 
-            return View(new User { ID = id, Username = user.UserName, IsAdmin = user.IsAdmin});
+            return View(new User
+            {
+                ID = user.Id,
+                Username = user.UserName,
+                Firstname = user.Firstname,
+                Lastname = user.Lastname,
+                IsAdmin = user.IsAdmin
+            });
         }
 
         // POST: Users/Delete/5
