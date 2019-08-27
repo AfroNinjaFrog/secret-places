@@ -32,18 +32,6 @@ namespace SecretPlaces.Controllers
             {
                 Places = Places.Where(p => p.Name.Contains(NameSearch));
             }
-
-            /*if (!String.IsNullOrEmpty(PlaceTypeSearch) && !PlaceTypeSearch.Equals("All"))
-            {
-                var PlaceType = (PlaceType)Convert.ToInt32(PlaceTypeSearch);
-                Places = Places.Where(p => p.PlaceType.Equals(PlaceType));
-            }
-
-            if (!String.IsNullOrEmpty(KosherSearch) && !KosherSearch.Equals("All"))
-            {
-                var isKosher = KosherSearch.Equals("Yes");
-                Places = Places.Where(p => p.IsKosher == isKosher);
-            }*/
             
             return View(await Places.ToListAsync());
         }
