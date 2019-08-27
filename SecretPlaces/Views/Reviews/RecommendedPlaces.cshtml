@@ -16,8 +16,7 @@
         {
             <section>
                 <h3>@Html.DisplayFor(modelItem => item.Title)</h3>
-                <i class="glyphicon glyphicon-user"></i> <strong>@Html.DisplayFor(modelItem => item.UploaderUsername)</strong>
-                <hr>
+                <i class="glyphicon glyphicon-user"></i> <strong style="color: #385898;">@Html.DisplayFor(modelItem => item.UploaderUsername)</strong>
                 <p>
                     <span class="glyphicon glyphicon-globe"></span> <strong>@Html.DisplayFor(modelItem => item.Place.Name)</strong>
                 </p>
@@ -35,34 +34,15 @@
                         <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
                     }
                 </p>
+				<hr>
             </section>
-            @if (SignInManager.IsSignedIn(User))
-            {
-                var user = await UserManager.GetUserAsync(User);
-
-                if (user != null)
-                {
-                    <div class="row" style="margin: 0px;">
-                        <div class="well well-sm col-md-6">
-                            <p><i class="glyphicon glyphicon-send"></i> Leave a Comment:</p>
-                            @using (Html.BeginForm("PostComment", "Reviews"))
-                            {
-                                <input type="hidden" name="reviewId" value="@item.ID" />
-                                <div class="form-group">
-                                    <textarea name="content" class="form-control" rows="2"></textarea>
-                                </div>
-                                <button type="submit" value="post" class="btn btn-info">Submit</button>
-                            }
-                        </div>
-                    </div>
-                }
-            }
+            <div style="margin-left: 20px;">
             @foreach (var comment in item.Comments)
             {
-                <section>
+                <section style="background-color: #f2f3f5; border-radius: 5px; margin-bottom: 5px; padding: 5px;">
                     <p>
-                        <span class="glyphicon glyphicon-comment"></span>
-                        @Html.DisplayFor(modelItem => comment.UploaderUsername):
+                        <span class="glyphicon glyphicon-user"></span>
+                        <span style="color: #385898;"> @Html.DisplayFor(modelItem => comment.UploaderUsername)</span>
                         <br />
                         <small>@Html.DisplayFor(modelItem => comment.CreationDate)</small>
                     </p>
@@ -78,6 +58,27 @@
                     }
                 </section>
             }
+			@if (SignInManager.IsSignedIn(User))
+            {
+                var user = await UserManager.GetUserAsync(User);
+
+                if (user != null)
+                {
+                    <div class="row" style="margin: 0px;">
+                        <div class="well well-sm col-md-6">
+                            @using (Html.BeginForm("PostComment", "Reviews"))
+                            {
+                                <input type="hidden" name="reviewId" value="@item.ID" />
+                                <div class="form-group">
+                                    <textarea name="content" placeholder="Leave a Comment" class="form-control" rows="2"></textarea>
+                                </div>
+                                <button type="submit" value="post" class="btn btn-info">Post</button>
+                            }
+                        </div>
+                    </div>
+                }
+            }
+			</div>
 
             <br />
         }
