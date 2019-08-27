@@ -22,9 +22,9 @@ namespace SecretPlaces.Controllers
             return View();
         }
 
-        public IActionResult Coffee()
+        public IActionResult Weather()
         {
-            ViewData["Message"] = "Coffee page.";
+            ViewData["Message"] = "Weather page.";
 
             return View();
         }
