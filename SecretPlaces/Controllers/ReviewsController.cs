@@ -396,15 +396,20 @@ namespace SecretPlaces.Controllers
             };
         }
 		
-
+        // Create a svm node array, each node has its value of how many times does a word from the vocabulary
+        // appears in the review
         private static svm_node[] CreateNode(string x, IReadOnlyList<string> vocabulary)
         {
+            // Creates a list the size of the vocabulary 
             var node = new List<svm_node>(vocabulary.Count);
 
+            // Creates an array from the review's words
             var words = x.Split(new[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
 
+            // For each word in the vocabulary
             for (var i = 0; i < vocabulary.Count; i++)
             {
+                // Checks how many times does a word appears in the vocabulary
                 var occurenceCount = words.Count(s => string.Equals(s, vocabulary[i], StringComparison.OrdinalIgnoreCase));
                 if (occurenceCount == 0)
                     continue;
