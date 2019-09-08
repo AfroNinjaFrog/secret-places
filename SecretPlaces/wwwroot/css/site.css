@@ -10,13 +10,12 @@ body {
 }
 
 @font-face {
-    font-family: logoFont;
-    src: url('../lib/Sweet Hipster.ttf');
+	font-family: titleFont;
+	src: url('../lib/ufonts.com_cc-wild-words-roman.ttf');
 }
 
 header {
 	border-radius: 25px;
-	/*background: linear-gradient(to bottom, #67a0e6 0%,#4f6dba 50%,#5379b3 51%,#1c396e 100%);*/
 	background-image: url('../images/kinnereth.jpg');
 	background-position: center;
 	background-size: cover;
@@ -36,10 +35,15 @@ header h1:hover {
     text-shadow: 2px 2px 8px #b7babf;
 }
 
+h1:hover, h2:hover {
+	text-shadow: 2px 2px 8px #b7babf;
+	transition: text-shadow 2s;
+}
+
 
 header h1 {
 	margin-top: 15px;
-	font-family: cursive;
+	font-family: titleFont;
 	font-size: 4em;
 }
 
