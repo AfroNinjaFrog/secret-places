@@ -404,7 +404,7 @@ namespace SecretPlaces.Controllers
             var node = new List<svm_node>(vocabulary.Count);
 
             // Creates an array from the review's words
-            var words = x.Split(new[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+            var words = (x.Split()).Where(s => !string.IsNullOrEmpty(s)).ToArray();
 
             // For each word in the vocabulary
             for (var i = 0; i < vocabulary.Count; i++)
