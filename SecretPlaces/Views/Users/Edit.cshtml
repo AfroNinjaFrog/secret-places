@@ -11,15 +11,21 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="ID"/>
-            <input type="hidden" asp-for="Username" class="form-control"/>
+            <input type="hidden" asp-for="ID" />
+            <input type="hidden" asp-for="Username" class="form-control" />
 
             @if (Model.Username != UserManager.GetUserName(User))
             {
                 <div class="form-group">
                     <div class="checkbox">
+                        <div class="text-lowercase">
+                            @Html.DisplayNameFor(model => model.Firstname) <input type="text" asp-for="Firstname" />
+                        </div>
+                        <div class="text-lowercase">
+                            @Html.DisplayNameFor(model => model.Lastname) <input type="text" asp-for="Lastname" />
+                        </div>
                         <label>
-                            <input asp-for="IsAdmin"/> @Html.DisplayNameFor(model => model.IsAdmin)
+                            <input asp-for="IsAdmin" /> @Html.DisplayNameFor(model => model.IsAdmin)
                         </label>
                     </div>
                 </div>
@@ -30,7 +36,7 @@
             }
 
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default"/>
+                <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </form>
     </div>
