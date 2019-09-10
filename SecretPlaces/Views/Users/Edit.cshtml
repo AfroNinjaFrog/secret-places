@@ -17,16 +17,6 @@
             @if (Model.Username != UserManager.GetUserName(User))
             {
                 <div class="form-group">
-                    <label asp-for="Firstname" class="control-label"></label>
-                    <input asp-for="Firstname" class="form-control" />
-                    <span asp-validation-for="Firstname" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Lastname" class="control-label"></label>
-                    <input asp-for="Lastname" class="form-control" />
-                    <span asp-validation-for="Lastname" class="text-danger"></span>
-                </div>
-                <div class="form-group">
                     <div class="checkbox">
                         <label>
                             <input asp-for="IsAdmin" /> @Html.DisplayNameFor(model => model.IsAdmin)

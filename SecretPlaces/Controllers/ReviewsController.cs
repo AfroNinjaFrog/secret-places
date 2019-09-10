@@ -67,6 +67,7 @@ namespace SecretPlaces.Controllers
 
             var review = await _context.Review
                 .FirstOrDefaultAsync(m => m.ID == id);
+
             if (review == null)
             {
                 return NotFound();
