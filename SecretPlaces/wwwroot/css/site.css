@@ -77,3 +77,13 @@ header h1 {
 .navbar-inverse {
     box-shadow: 0 8px 6px -6px #222;
 }
+
+.home-img-container {
+	column-count: 2;
+}
+
+.home-img {
+	margin-bottom: 20px;
+	width: 400px;
+	height: 200px;
+}
