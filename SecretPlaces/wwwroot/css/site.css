@@ -77,3 +77,7 @@ header h1 {
 .navbar-inverse {
     box-shadow: 0 8px 6px -6px #222;
 }
+
+.dl-horizontal dt{
+    text-align: left !important;
+}
