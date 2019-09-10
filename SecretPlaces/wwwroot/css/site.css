@@ -87,3 +87,7 @@ header h1 {
 	width: 400px;
 	height: 200px;
 }
+
+.dl-horizontal dt {
+    text-align: left !important;
+}

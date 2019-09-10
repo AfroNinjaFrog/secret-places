@@ -19,8 +19,8 @@
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label class="control-label col-md-2" for="PlaceID">Place</label>
-                <div class="col-md-10">
+                <label class="control-label" for="PlaceID">Place</label>
+                <div>
                     @Html.DropDownList("PlaceID")
                     @Html.ValidationMessageFor(model => model.Place)
                 </div>

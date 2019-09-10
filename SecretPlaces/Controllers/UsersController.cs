@@ -54,8 +54,6 @@ namespace SecretPlaces.Controllers
                 {
                     ID = user.Id,
                     Username = user.UserName,
-                    Firstname = user.Firstname,
-                    Lastname = user.Lastname,
                     IsAdmin = user.IsAdmin
                 };
                 UsersList.Add(UserModel);
@@ -91,8 +89,6 @@ namespace SecretPlaces.Controllers
             {
                 ID = user.Id,
                 Username = user.UserName,
-                Firstname = user.Firstname,
-                Lastname = user.Lastname,
                 IsAdmin = user.IsAdmin
             });
         }
@@ -102,7 +98,7 @@ namespace SecretPlaces.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("ID,Username,Firstname,Lastname,IsAdmin")] User user)
+        public async Task<IActionResult> Edit(string id, [Bind("ID,Username,IsAdmin")] User user)
         {
             var loggedUser = await _manager.GetUserAsync(User);
 
@@ -123,8 +119,6 @@ namespace SecretPlaces.Controllers
                     ApplicationUser oldUser = await _manager.Users.FirstAsync<ApplicationUser>(u => u.Id == id);
                     oldUser.UserName = user.Username;
                     oldUser.Email = user.Username;
-                    oldUser.Firstname = user.Firstname;
-                    oldUser.Lastname = user.Lastname;
                     
                     if (oldUser.UserName != loggedUser.UserName)
                     {
@@ -188,8 +182,6 @@ namespace SecretPlaces.Controllers
             {
                 ID = user.Id,
                 Username = user.UserName,
-                Firstname = user.Firstname,
-                Lastname = user.Lastname,
                 IsAdmin = user.IsAdmin
             });
         }
