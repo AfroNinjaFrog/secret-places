@@ -29,7 +29,7 @@ namespace SecretPlaces.Controllers
         public async Task<IActionResult> Index(string TitleSearchString, string DateSearch, int PlaceSearch)
         {
             var reviews = from d in _context.Review
-                        select d;
+                          select d;
 
             foreach (var currentReview in reviews)
             {
@@ -67,11 +67,15 @@ namespace SecretPlaces.Controllers
 
             var review = await _context.Review
                 .FirstOrDefaultAsync(m => m.ID == id);
+
+            review.Place = await _context.Place
+                            .FirstOrDefaultAsync(m => m.ID == review.PlaceID);
+
             if (review == null)
             {
                 return NotFound();
             }
-            
+
             return View(review);
         }
 
@@ -99,8 +103,8 @@ namespace SecretPlaces.Controllers
             if (!ModelState.IsValid) return View(review);
             review.PublishDate = DateTime.Now;
             review.Place = (Place)(from d in _context.Place
-                where d.ID == review.PlaceID
-                select d).First();
+                                   where d.ID == review.PlaceID
+                                   select d).First();
 
             review.UploaderUsername = HttpContext.User.Identity.Name;
 
@@ -199,8 +203,8 @@ namespace SecretPlaces.Controllers
                 {
                     review.PublishDate = DateTime.Now;
                     review.Place = (Place)(from d in _context.Place
-                                             where d.ID == review.PlaceID
-                                             select d).First();
+                                           where d.ID == review.PlaceID
+                                           select d).First();
                     review.UploaderUsername = HttpContext.User.Identity.Name;
                     _context.Update(review);
                     await _context.SaveChangesAsync();
@@ -266,7 +270,7 @@ namespace SecretPlaces.Controllers
             }
 
             var review = await _context.Review.FindAsync(id);
-            
+
             _context.Review.Remove(review);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -280,8 +284,8 @@ namespace SecretPlaces.Controllers
         private void PopulatePlacesDropDownList(object selectedPlace = null)
         {
             var PlaceQuery = from d in _context.Place
-                                   orderby d.Name
-                                   select d;
+                             orderby d.Name
+                             select d;
 
             ViewBag.PlaceID = new SelectList(PlaceQuery, "ID", "Name", selectedPlace);
         }
@@ -289,8 +293,8 @@ namespace SecretPlaces.Controllers
         private void PopulatePlacesSearchList()
         {
             var PlacesQuery = from d in _context.Place
-                                 orderby d.Name
-                                 select d;
+                              orderby d.Name
+                              select d;
 
             ViewBag.PlaceID = new SelectList(PlacesQuery, "ID", "Name", null);
         }
@@ -379,7 +383,7 @@ namespace SecretPlaces.Controllers
 
             return View(recommendedReviews.OrderByDescending(p => p.PublishDate));
         }
-		
+
 
         private static IEnumerable<string> GetWords(string x)
         {
@@ -395,7 +399,7 @@ namespace SecretPlaces.Controllers
                 l = y.Length
             };
         }
-		
+
         // Create a svm node array, each node has its value of how many times does a word from the vocabulary
         // appears in the review
         private static svm_node[] CreateNode(string x, IReadOnlyList<string> vocabulary)
